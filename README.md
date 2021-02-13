@@ -1,0 +1,2 @@
+# fancySlider
+# slider-assignment
