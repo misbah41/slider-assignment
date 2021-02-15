@@ -45,7 +45,7 @@ const getImages = (query) => {
   fetch(url)
     .then(response => response.json())
     .then(data => showImages(data.hits))
-    .catch(err => catchError(err))
+    .catch(err => apiCatchError(err))
   
 }
 
@@ -185,7 +185,7 @@ document.getElementById('duration').addEventListener('keypress', function (event
 })
 
 
-const catchError = () => {
+const apiCatchError = () => {
   const displayFetchError = document.getElementById('errorMsgDiv');
    const h3 = document.createElement('h3')
    h3.innerHTML = `
@@ -214,7 +214,7 @@ const sliderSpinner = () => {
 
 // Error msg handling function
 const errorMassage = () =>{
-  const searchError = document.getElementById('error-msg');
+  const searchError = document.getElementById('searchErrorMsg');
    const div = document.createElement('div')
    div.className = 'massage-style'
    div.innerHTML = `
@@ -224,4 +224,3 @@ const errorMassage = () =>{
    document.getElementById('gallery-container').innerText = ''
    toggleSpinner()
 }
-
