@@ -1,3 +1,7 @@
+
+//bonus feature spinner added
+// and search input validation and view image in full screen feature
+
 const imagesArea = document.querySelector('.images');
 const gallery = document.querySelector('.gallery');
 const galleryHeader = document.querySelector('.gallery-header');
@@ -17,7 +21,7 @@ const KEY = '17321528-d41904a4da995a6d119d99cf7';
 const showImages = (images) => {
 
   if (images.length == 0) {
-   return errorMassage()
+    return searchErrorMsg()
   }
   else {
     imagesArea.style.display = 'block';
@@ -30,12 +34,14 @@ const showImages = (images) => {
       div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2 ';
       div.innerHTML = ` <img class="img-fluid img-thumbnail hover"  onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">
                         <p class = "text-center"><span class = "text-capitalize"> ${image.tags}</span></P>
+                        <a target="_blank" class='btn btn-success text-white ' href="${image.webformatURL}"  >View Full Screen</a>
+
                        
       `;
       gallery.appendChild(div);
-      
+
     })
- }
+  }
 
 }
 
@@ -45,20 +51,20 @@ const getImages = (query) => {
   fetch(url)
     .then(response => response.json())
     .then(data => showImages(data.hits))
-    .catch(err => apiCatchError(err))
-  
+    .catch(error => apiCatchError(error))
+
 }
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
   element.classList.add('added');
- 
+
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
-  } 
-  
+  }
+
   else {
     element.classList.toggle('added');
     if (item != -1) {
@@ -68,7 +74,7 @@ const selectItem = (event, img) => {
 }
 var timer
 const createSlider = () => {
- 
+
   // check slider image length
   if (sliders.length < 2) {
     alert('Select at least 2 image.')
@@ -85,13 +91,13 @@ const createSlider = () => {
 
   sliderContainer.appendChild(prevNext)
   document.querySelector('.main').style.display = 'block';
- 
+
   // hide image area
   imagesArea.style.display = 'none';
-  setTimeout(function(){ sliderSpinner(); }, 100);
+  setTimeout(function () { sliderSpinner(); }, 100);
   const duration = document.getElementById('duration').value || 1000;
   if (duration > 0) {
-    document.getElementById('duration').value = duration ;
+    document.getElementById('duration').value = duration;
     sliders.forEach(slide => {
       let item = document.createElement('div')
       item.className = "slider-item";
@@ -100,27 +106,27 @@ const createSlider = () => {
       alt="">`;
       sliderContainer.appendChild(item)
     })
-  
-      changeSlide(0)
-      sliderSpinner()
-      timer = setInterval(function () {
-        slideIndex++;
-        changeSlide(slideIndex);
-      }, duration);
-  } 
-  else{
+
+    changeSlide(0)
+    sliderSpinner()
+    timer = setInterval(function () {
+      slideIndex++;
+      changeSlide(slideIndex);
+    }, duration);
+  }
+  else {
     alert('please Input Valid Duration')
     getImages(search.value)
     const spinner = document.getElementById('loading-spinner');
     spinner.classList.toggle('d-none')
-    
+
     changeSlide(0)
-      sliderSpinner()
-      timer = setInterval(function () {
-        slideIndex++;
-        changeSlide(slideIndex);
-      }, 1000);
-    
+    sliderSpinner()
+    timer = setInterval(function () {
+      slideIndex++;
+      changeSlide(slideIndex);
+    }, 1000);
+
   }
 
 }
@@ -187,13 +193,13 @@ document.getElementById('duration').addEventListener('keypress', function (event
 
 const apiCatchError = () => {
   const displayFetchError = document.getElementById('errorMsgDiv');
-   const h3 = document.createElement('h3')
-   h3.innerHTML = `
+  const h3 = document.createElement('h3')
+  h3.innerHTML = `
    <h3> Something Went wrong, Please Try Again  </h3>
    `
-   displayFetchError.appendChild(h2)
-   document.getElementById('gallery-container').innerText = ''
-   toggleSpinner()
+  displayFetchError.appendChild(h3)
+  document.getElementById('gallery-container').innerText = ''
+  toggleSpinner()
 };
 
 // spinner main
@@ -213,14 +219,15 @@ const sliderSpinner = () => {
 }
 
 // Error msg handling function
-const errorMassage = () =>{
-  const searchError = document.getElementById('searchErrorMsg');
-   const div = document.createElement('div')
-   div.className = 'massage-style'
-   div.innerHTML = `
+const searchErrorMsg = () => {
+  const searchError = document.getElementById('searchError');
+  const div = document.createElement('div')
+  div.className = 'massage-style'
+  div.innerHTML = `
    <h3> Please Enter a Valid Name </h3>
    `
-   searchError.appendChild(div)
-   document.getElementById('gallery-container').innerText = ''
-   toggleSpinner()
+  searchError.appendChild(div)
+  document.getElementById('gallery-container').innerText = ''
+  toggleSpinner()
 }
+

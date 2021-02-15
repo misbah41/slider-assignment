@@ -8,10 +8,21 @@
 .d-none{
   display: none!important;
 }
+#modalDiv{
+  width: 500px;
+  height: 70vh;
+  background-color: rgb(255, 115, 0);
+  display:none;
+}
 .gallery-header {
   display: none;
 }
-
+.gallery{
+  text-align: center;
+}
+.gallery .btn{
+  display:block;
+}
 .slider-item {
   display: none;
 }

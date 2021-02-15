@@ -18,12 +18,19 @@
 
 <body>
   <div class="container">
-    <h4 class="mt-2 text-center">Search Image for create slider</h4>
+    <h4 class="mt-2 text-center">Search Image For Create Slider</h4>
     <div class="form-inline mt-3 d-flex justify-content-center">
       <div class="input-group col-md-6 mb-2">
         <input type="text" class="form-control" id="search" placeholder="Nature">
       </div>
       <button type="button" id="search-btn" class="btn btn-primary mb-2">Search</button>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-sm-6">
+        <div id="modalDiv">
+          
+        </div>
+      </div>
     </div>
 
     <!-- spinner -->
@@ -34,8 +41,8 @@
         </div>
     </div>
     </div>
-    <div id='searchErrorMsg' class=""></div>
-    <div id="errorMsgDiv" class="massage-style d-block"></div>
+    <div id='searchError' class="text-center" style="color: red;"></div>
+    <div id="errorMsgDiv" class="massage-style d-block text-center" style="color: red;"></div>
     <section class="images">
       <div id="gallery-container">
         <div class="justify-content-around align-items-center mt-3 gallery-header mb-2">
