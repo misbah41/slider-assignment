@@ -11,7 +11,7 @@ let sliders = [];
 // If this key doesn't work
 // Find the name in the url and go to their website
 // to create your own api key
-const KEY = '20264509-7631d2fa21c269f8048612398';
+const KEY = '17321528-d41904a4da995a6d119d99cf7';
 
 // show images 
 const showImages = (images) => {
@@ -45,7 +45,7 @@ const getImages = (query) => {
   fetch(url)
     .then(response => response.json())
     .then(data => showImages(data.hits))
-    .catch(err => apiProblem(err))
+    .catch(err => catchError(err))
   
 }
 
@@ -88,7 +88,7 @@ const createSlider = () => {
  
   // hide image area
   imagesArea.style.display = 'none';
-  setTimeout(function(){ slideToggleSpinner(); }, 100);
+  setTimeout(function(){ sliderSpinner(); }, 100);
   const duration = document.getElementById('duration').value || 1000;
   if (duration > 0) {
     document.getElementById('duration').value = duration ;
@@ -102,7 +102,7 @@ const createSlider = () => {
     })
   
       changeSlide(0)
-      slideToggleSpinner()
+      sliderSpinner()
       timer = setInterval(function () {
         slideIndex++;
         changeSlide(slideIndex);
@@ -115,7 +115,7 @@ const createSlider = () => {
     spinner.classList.toggle('d-none')
     
     changeSlide(0)
-      slideToggleSpinner()
+      sliderSpinner()
       timer = setInterval(function () {
         slideIndex++;
         changeSlide(slideIndex);
@@ -184,8 +184,19 @@ document.getElementById('duration').addEventListener('keypress', function (event
   }
 })
 
-// spinner
 
+const catchError = () => {
+  const displayFetchError = document.getElementById('errorMsgDiv');
+   const h3 = document.createElement('h3')
+   h3.innerHTML = `
+   <h3> Something Went wrong, Please Try Again  </h3>
+   `
+   displayFetchError.appendChild(h2)
+   document.getElementById('gallery-container').innerText = ''
+   toggleSpinner()
+};
+
+// spinner main
 const toggleSpinner = () => {
   const spinner = document.getElementById('loading-spinner');
   const galleryContainer = document.getElementById('gallery-container');
@@ -193,35 +204,24 @@ const toggleSpinner = () => {
   galleryContainer.classList.toggle('d-none')
 }
 
-// slider spinner
-const slideToggleSpinner = () => {
+// spinner for slider
+const sliderSpinner = () => {
   const spinner = document.getElementById('loading-spinner');
   spinner.classList.toggle('d-none')
   const slideSpinner = document.getElementById('slide-loader');
   slideSpinner.classList.toggle('d-none')
 }
 
-// Error massage handling
-
+// Error msg handling function
 const errorMassage = () =>{
-  const showingMsg = document.getElementById('error-msg');
+  const searchError = document.getElementById('error-msg');
    const div = document.createElement('div')
    div.className = 'massage-style'
    div.innerHTML = `
-   <h1> Please Input Valid Image Name </h1>
+   <h3> Please Enter a Valid Name </h3>
    `
-   showingMsg.appendChild(div)
+   searchError.appendChild(div)
    document.getElementById('gallery-container').innerText = ''
    toggleSpinner()
 }
 
-const apiProblem = () => {
-  const fetchError = document.getElementById('fetch-error-msg');
-   const h2 = document.createElement('h2')
-   h2.innerHTML = `
-   <h2> Something wrong, Please Try Again Letter </h2>
-   `
-   fetchError.appendChild(h2)
-   document.getElementById('gallery-container').innerText = ''
-   toggleSpinner()
-}
