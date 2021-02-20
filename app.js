@@ -172,7 +172,6 @@ document.getElementById('search').addEventListener('keypress', function (event) 
     document.getElementById('search-btn').click();
     selectedImgCounter.innerText = 0;
     document.getElementById('durationError').innerText = "";
-    document.getElementById('duration').value = '';
   }
 });
 searchBtn.addEventListener('click', function () {
@@ -183,7 +182,6 @@ searchBtn.addEventListener('click', function () {
   sliders.length = 0;
   selectedImgCounter.innerText = 0;
   document.getElementById('durationError').innerText = "";
-  document.getElementById('duration').value = '';
 })
 
 
