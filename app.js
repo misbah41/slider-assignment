@@ -2,8 +2,8 @@
 /*****
  * 
  * 
- * bonus feature spinner added
- * 
+ * bonus feature spinner added and
+ * bonus feature images selected counter added
  * 
  * 
  * 
