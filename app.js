@@ -1,6 +1,17 @@
 
-//bonus feature spinner added
+/*****
+ * 
+ * 
+ * bonus feature spinner added
+ * 
+ * 
+ * 
+ * 
+*******/
 // and search input validation and view image in full screen feature
+
+
+
 
 const imagesArea = document.querySelector('.images');
 const gallery = document.querySelector('.gallery');
@@ -19,29 +30,23 @@ const KEY = '17321528-d41904a4da995a6d119d99cf7';
 
 // show images 
 const showImages = (images) => {
-
-  if (images.length == 0) {
-    return searchErrorMsg()
-  }
-  else {
-    imagesArea.style.display = 'block';
-    gallery.innerHTML = '';
-    toggleSpinner();// spinner func call
-    // show gallery title
-    galleryHeader.style.display = 'flex';
-    images.forEach(image => {
-      let div = document.createElement('div');
-      div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2 ';
-      div.innerHTML = ` <img class="img-fluid img-thumbnail hover"  onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">
+  imagesArea.style.display = 'block';
+  gallery.innerHTML = '';
+  toggleSpinner();// spinner func call
+  // show gallery title
+  galleryHeader.style.display = 'flex';
+  images.forEach(image => {
+    let div = document.createElement('div');
+    div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2 ';
+    div.innerHTML = ` <img class="img-fluid img-thumbnail hover"  onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">
                         <p class = "text-center"><span class = "text-capitalize"> ${image.tags}</span></P>
                         <a target="_blank" class='btn btn-success text-white ' href="${image.webformatURL}"  >View Full Screen</a>
 
                        
       `;
-      gallery.appendChild(div);
+    gallery.appendChild(div);
 
-    })
-  }
+  })
 
 }
 
@@ -58,20 +63,25 @@ const getImages = (query) => {
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
-  element.classList.add('added');
+  element.classList.toggle('added');
 
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
-  }
-
-  else {
-    element.classList.toggle('added');
-    if (item != -1) {
-      delete sliders[item];
-    }
+    selectedImgCounterFunc();
+  } else {
+    sliders.splice(item, 1);
+    selectedImgCounterFunc();
   }
 }
+
+// Show Selected Images
+const selectedImgCounter = document.getElementById('selected-imgCounter');
+const selectedImgCounterFunc = () => {
+  selectedImgCounter.innerText = sliders.length;
+}
+
+
 var timer
 const createSlider = () => {
 
@@ -115,7 +125,6 @@ const createSlider = () => {
     }, duration);
   }
   else {
-    alert('please Input Valid Duration')
     getImages(search.value)
     const spinner = document.getElementById('loading-spinner');
     spinner.classList.toggle('d-none')
@@ -161,6 +170,9 @@ const changeSlide = (index) => {
 document.getElementById('search').addEventListener('keypress', function (event) {
   if (event.key == 'Enter') {
     document.getElementById('search-btn').click();
+    selectedImgCounter.innerText = 0;
+    document.getElementById('durationError').innerText = "";
+
   }
 });
 searchBtn.addEventListener('click', function () {
@@ -169,9 +181,12 @@ searchBtn.addEventListener('click', function () {
   const search = document.getElementById('search');
   getImages(search.value)
   sliders.length = 0;
+  selectedImgCounter.innerText = 0;
+  document.getElementById('durationError').innerText = "";
 })
 
 
+//slider btn addEventListener
 sliderBtn.addEventListener('click', function () {
   const duration = document.getElementById('duration').value;
   if (duration > 0) {
@@ -179,6 +194,7 @@ sliderBtn.addEventListener('click', function () {
 
   } else {
     document.getElementById('duration').value = 1000;
+    document.getElementById('durationError').innerText = `Negative Value Can'not Work! We Fixed Default Value Please Click Again `;
 
   };
 });
@@ -188,8 +204,7 @@ document.getElementById('duration').addEventListener('keypress', function (event
   if (event.key == 'Enter') {
     document.getElementById('create-slider').click();
   }
-})
-
+});
 
 const apiCatchError = () => {
   const displayFetchError = document.getElementById('errorMsgDiv');
@@ -216,18 +231,5 @@ const sliderSpinner = () => {
   spinner.classList.toggle('d-none')
   const slideSpinner = document.getElementById('slide-loader');
   slideSpinner.classList.toggle('d-none')
-}
-
-// Error msg handling function
-const searchErrorMsg = () => {
-  const searchError = document.getElementById('searchError');
-  const div = document.createElement('div')
-  div.className = 'massage-style'
-  div.innerHTML = `
-   <h3> Please Enter a Valid Name </h3>
-   `
-  searchError.appendChild(div)
-  document.getElementById('gallery-container').innerText = ''
-  toggleSpinner()
 }
 
